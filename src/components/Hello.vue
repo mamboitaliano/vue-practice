@@ -33,8 +33,8 @@ const Child = {
 };
 export default {
   name: 'hello',
-  data() {
-    return {
+  data() {    // <--- when working with components,
+    return {  //      data has to be a func that returns an object with our values
       msg: 'Practice Vue App',
       items: [],
     };

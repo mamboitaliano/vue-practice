@@ -1,13 +1,21 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
     <router-view></router-view>
+    <turtles msg='Who likes turtles?' />
+    <users />
   </div>
 </template>
 
 <script>
+import Turtles from './components/Turtles';
+import Users from './components/Users';
+
 export default {
   name: 'app',
+  components: {
+    Turtles,
+    Users,
+  },
 };
 </script>
 
