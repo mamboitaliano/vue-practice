@@ -1,12 +1,14 @@
 <template>
   <div id="app">
+    <button @click="toggleMe(1)">Toggle me</button>
+    <hr />
+    <img v-if="isTrue" src="./assets/logo.png" />
     <router-view></router-view>
-    <turtles msg='Who likes turtles?' />
-    <users />
   </div>
 </template>
 
 <script>
+/* eslint-disable */
 import Turtles from './components/Turtles';
 import Users from './components/Users';
 
@@ -15,6 +17,19 @@ export default {
   components: {
     Turtles,
     Users,
+  },
+  data() {
+    return {};
+  },
+  methods: {
+    toggleMe(payload) {
+      this.$store.dispatch('toggle', payload);
+    },
+  },
+  computed: {
+    isTrue() {
+      return this.$store.getters.isTrue;
+    },
   },
 };
 </script>

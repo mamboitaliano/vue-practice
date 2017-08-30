@@ -21,6 +21,7 @@
 </template>
 
 <script>
+/* eslint-disable */
   export default {
     name: 'users',
     data() {
@@ -35,17 +36,23 @@
         const emailInput = document.getElementById('emailInput');
         nameInput.value = '';
         emailInput.value = '';
-        this.users.push({
-          name: this.newUser.name,
-          email: this.newUser.email,
-          contacted: false,
-        });
+        this.$store.dispatch(
+          'addUser',
+          {
+            name: this.newUser.name,
+            email: this.newUser.email,
+            contacted: false,
+          },
+        );
         e.preventDefault();
       },
       deleteUser(user) {
-        this.users.splice(this.users.indexOf(user), 1);
+        this.$store.dispatch('deleteUser', user);
       },
     },
+    created() {
+      this.$store.dispatch('loadUsers');
+    }
   };
 </script>
 

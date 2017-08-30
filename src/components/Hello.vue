@@ -1,40 +1,45 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      Perhaps the simplest app in the world, all this does is allow you to add links to a list.<br />
-      Try adding some links below :)
-    </p>
-    <div>
+  <div>
+    <hr />
+    <button @click="toggleMe()">Toggle me</button>
+    <div v-show="isTrue" class="hello">
+      <h1>{{ msg }}</h1>
+      <p>
+        Perhaps the simplest app in the world, all this does is allow you to add links to a list.<br />
+        Try adding some links below :)
+      </p>
       <div>
-        <span>URL:</span>
-        <input id='urlInput' v-on:keypress.enter='addThing'/>
+        <div>
+          <span>URL:</span>
+          <input id='urlInput' v-on:keypress.enter='addThing'/>
+        </div>
+        <div>
+          <span>Label:</span>
+          <input id='textInput' v-on:keypress.enter='addThing'/>
+        </div>
+        <button v-on:click='addThing'>Add Link</button>
       </div>
-      <div>
-        <span>Label:</span>
-        <input id='textInput' v-on:keypress.enter='addThing'/>
-      </div>
-      <button v-on:click='addThing'>Add Link</button>
+      <h2>List of links:</h2>
+      <ul>
+        <li v-for='(item, index) in items'>
+          <a :href='item.url' target="_blank">{{ item.text }}</a>
+          <button v-on:click='deleteThing(index)'>X</button>
+        </li>
+      </ul>
+      <child />
     </div>
-    <h2>List of links:</h2>
-    <ul>
-      <li v-for='(item, index) in items'>
-        <a :href='item.url' target="_blank">{{ item.text }}</a>
-        <button v-on:click='deleteThing(index)'>X</button>
-      </li>
-    </ul>
-    <child />
   </div>
 </template>
 
 <script>
+/* eslint-disable */
 const Child = {
-  template: '<div>A child component</div>',
+  template: '<div>This is a child component</div>',
 };
 export default {
   name: 'hello',
-  data() {    // <--- when working with components,
-    return {  //      data has to be a func that returns an object with our values
+  data() {
+    return {
       msg: 'Practice Vue App',
       items: [],
     };
@@ -53,9 +58,16 @@ export default {
       }
     },
     deleteThing(index) {
-      debugger;
       this.items.splice(index, 1);
     },
+    toggleMe() {
+      this.$store.dispatch('toggle');
+    },
+  },
+  computed: {
+    isTrue() {
+      return this.$store.getters.isTrue;
+    }
   },
   components: {
     child: Child,
